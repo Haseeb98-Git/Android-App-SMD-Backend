@@ -4,36 +4,56 @@ import java.time.LocalDateTime;
 
 public class CallResponse {
     private String callId;
-    private String callerId;
-    private String receiverId;
-    private String callType;
     private String channelName;
     private String token;
+    private String callType;
+    private String callerId;
+    private String receiverId;
+    private String callerName;
+    private String receiverName;
+    private String status;
+    private boolean active;
     private LocalDateTime timestamp;
     
     public CallResponse() {}
     
-    public CallResponse(String callId, String callerId, String receiverId, String callType, 
-                       String channelName, String token, LocalDateTime timestamp) {
+    public CallResponse(
+        String callId, 
+        String channelName, 
+        String token,
+        String callType, 
+        String callerId, 
+        String receiverId,
+        String callerName,
+        String receiverName,
+        String status,
+        boolean active
+    ) {
         this.callId = callId;
-        this.callerId = callerId;
-        this.receiverId = receiverId;
-        this.callType = callType;
         this.channelName = channelName;
         this.token = token;
-        this.timestamp = timestamp;
+        this.callType = callType;
+        this.callerId = callerId;
+        this.receiverId = receiverId;
+        this.callerName = callerName;
+        this.receiverName = receiverName;
+        this.status = status;
+        this.active = active;
     }
     
     // Factory method to create from entity
     public static CallResponse fromEntity(Call call, String token) {
         return new CallResponse(
             call.getCallId(),
-            call.getCallerId(),
-            call.getReceiverId(),
-            call.getCallType(),
             call.getChannelName(),
             token,
-            call.getStartTime()
+            call.getCallType(),
+            call.getCallerId(),
+            call.getReceiverId(),
+            "", // Caller name needs to be filled by controller
+            "", // Receiver name needs to be filled by controller
+            call.getStatus(),
+            call.isActive()
         );
     }
     
@@ -44,6 +64,30 @@ public class CallResponse {
     
     public void setCallId(String callId) {
         this.callId = callId;
+    }
+    
+    public String getChannelName() {
+        return channelName;
+    }
+    
+    public void setChannelName(String channelName) {
+        this.channelName = channelName;
+    }
+    
+    public String getToken() {
+        return token;
+    }
+    
+    public void setToken(String token) {
+        this.token = token;
+    }
+    
+    public String getCallType() {
+        return callType;
+    }
+    
+    public void setCallType(String callType) {
+        this.callType = callType;
     }
     
     public String getCallerId() {
@@ -62,28 +106,36 @@ public class CallResponse {
         this.receiverId = receiverId;
     }
     
-    public String getCallType() {
-        return callType;
+    public String getCallerName() {
+        return callerName;
     }
     
-    public void setCallType(String callType) {
-        this.callType = callType;
+    public void setCallerName(String callerName) {
+        this.callerName = callerName;
     }
     
-    public String getChannelName() {
-        return channelName;
+    public String getReceiverName() {
+        return receiverName;
     }
     
-    public void setChannelName(String channelName) {
-        this.channelName = channelName;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
     
-    public String getToken() {
-        return token;
+    public String getStatus() {
+        return status;
     }
     
-    public void setToken(String token) {
-        this.token = token;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public boolean isActive() {
+        return active;
+    }
+    
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
     public LocalDateTime getTimestamp() {

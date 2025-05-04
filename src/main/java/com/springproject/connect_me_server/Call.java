@@ -28,12 +28,16 @@ public class Call {
     private LocalDateTime endTime;
     
     @Column(nullable = false)
+    private String status; // "off", "pending", "ongoing"
+    
+    @Column(nullable = false)
     private boolean active;
     
     // Constructors
     public Call() {
         this.startTime = LocalDateTime.now();
-        this.active = true;
+        this.status = "off";
+        this.active = false;
     }
     
     public Call(String callerId, String receiverId, String callType, String channelName) {
@@ -42,6 +46,7 @@ public class Call {
         this.callType = callType;
         this.channelName = channelName;
         this.startTime = LocalDateTime.now();
+        this.status = "pending";
         this.active = true;
     }
     
@@ -102,6 +107,14 @@ public class Call {
         this.endTime = endTime;
     }
     
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
     public boolean isActive() {
         return active;
     }
@@ -110,9 +123,14 @@ public class Call {
         this.active = active;
     }
     
-    // Helper method to end a call
+    // Helper methods
+    public void acceptCall() {
+        this.status = "ongoing";
+    }
+    
     public void endCall() {
         this.endTime = LocalDateTime.now();
+        this.status = "off";
         this.active = false;
     }
 } 
